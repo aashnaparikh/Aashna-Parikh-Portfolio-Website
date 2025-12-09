@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Github, Linkedin, FileText } from 'lucide-react';
+import { Mail, Github, Linkedin, FileText, Calendar, MapPin } from 'lucide-react';
 
 const Portfolio = () => {
   // Load NTR font
@@ -12,6 +12,7 @@ const Portfolio = () => {
   const [text, setText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
   const [aboutVisible, setAboutVisible] = useState(false);
+  const [experienceVisible, setExperienceVisible] = useState(false);
   const fullText = 'hi there, I am aashna :)!';
   const typingSpeed = 100;
 
@@ -331,6 +332,108 @@ const Portfolio = () => {
     };
   }, []);
 
+  // Intersection Observer for Experience section fade-in
+  useEffect(() => {
+    const experienceSection = document.getElementById('experience');
+    if (!experienceSection) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setExperienceVisible(true);
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    );
+
+    observer.observe(experienceSection);
+
+    return () => {
+      if (experienceSection) {
+        observer.unobserve(experienceSection);
+      }
+    };
+  }, []);
+
+  // Experience data
+  const experiences = [
+    {
+      role: "Undergraduate Research Assistant",
+      organization: "University of Victoria",
+      location: "Victoria, British Columbia",
+      date: "Oct. 2025 - Present",
+      description: "Conducting research under the Faculty of Engineering focused on bioinformatics, data science, and computational biology. Supporting the development of analytical models and computational pipelines to interpret biological data and identify meaningful genetic and molecular patterns. Collaborating with faculty researchers to co-author a paper integrating machine learning and biological data analysis, advancing interdisciplinary approaches to biomedical discovery."
+    },
+    {
+      role: "Software Assistant",
+      organization: "University of Victoria",
+      location: "Victoria, British Columbia",
+      date: "Oct. 2025 - Present",
+      description: "Collaborating with UVIC Library to support 3D printing, CAD design, and digital modeling projects. Utilize software such as Fusion 360, Blender, and SolidWorks to assist in design, rendering, and prototyping for academic and research applications. Provide technical guidance, troubleshoot design workflows, and contribute to workshops that promote innovation, digital literacy, and creative problem-solving."
+    },
+    {
+      role: "Tech Team Lead",
+      organization: "Women In Engineering, Science and Technology (WEST)",
+      location: "Victoria, British Columbia",
+      date: "Aug. 2025 - Present",
+      description: "Led the design and development of a hospital-grade pediatric MRI simulator in partnership with Fraser Health Authority and Surrey Memorial Hospital, advancing healthcare innovation to reduce the need for sedation in children undergoing MRI scans. Oversaw cross-functional collaboration, project planning, and technical execution to deliver a safe, mock training environment for pediatric patients."
+    },
+    {
+      role: "VP Professional Development",
+      organization: "Women In Engineering and Computer Science (WECS)",
+      location: "Victoria, British Columbia",
+      date: "Aug. 2025 - Present",
+      description: "Led the Professional Development Committee to deliver workshops, seminars, and networking events that advanced student career readiness. Aligned programming with organizational goals, built partnerships with industry and academic leaders, and promoted inclusive opportunities for professional growth."
+    },
+    {
+      role: "Residence Education Community Leader (RECL)",
+      organization: "UVIC RESLIFE",
+      location: "Victoria, British Columbia",
+      date: "Aug. 2025 - Present",
+      description: "Supported engineering students' academic and social success by facilitating community programs, peer mentorship, and inclusive events. Collaborated with faculty and residence staff to foster engagement, strengthen belonging, and promote a positive living-learning environment."
+    },
+    {
+      role: "Executive",
+      organization: "UVIC AI Club",
+      location: "Victoria, British Columbia",
+      date: "Aug. 2025 - Present",
+      description: "Directed initiatives to promote applied AI learning through events, workshops, and collaborations. Coordinated with peers and industry partners to deliver accessible, hands-on opportunities, while fostering a community that supports innovation and professional growth in AI."
+    },
+    {
+      role: "Public Relations Director-At-Large",
+      organization: "UMANG: UVIC Indian Students Association",
+      location: "Victoria, British Columbia",
+      date: "Oct. 2024 - Present",
+      description: "PR Director at Large for UVic Indian Students Association, skilled in event promotion, management, and stakeholder engagement. Proficient in branding, content creation, and fostering community connections."
+    },
+    {
+      role: "Symposium Director",
+      organization: "Women In Science",
+      location: "Victoria, British Columbia",
+      date: "Feb. 2025 - May 2025",
+      description: "Symposium Director for the UVic Women in Science Symposium, leading the organization and execution of an interdisciplinary event to empower women in STEM through networking, mentorship, and knowledge-sharing."
+    },
+    {
+      role: "Communications And Event Assistant",
+      organization: "CFGS: Centre For Global Studies",
+      location: "Victoria, British Columbia",
+      date: "Oct. 2024 - Apr. 2025",
+      description: "Organized and adaptable Communications & Events Assistant with excellent writing skills, proficiency in Microsoft Office Suite, Teams, and Mailchimp, and experience in event management and social media platforms. Skilled in professional communication and collaboration with diverse teams, including international scholars, while excelling in independent tasks within dynamic office environments."
+    },
+    {
+      role: "Co-Founder and Creative Marketing Director",
+      organization: "FEMocracy: A UN Girl-UP Reprise",
+      location: "Remote",
+      date: "Aug. 2022 - Aug. 2025",
+      description: "Led a dynamic social media platform advocating for feminist causes through engaging blog articles. Utilized strong communication and organizational skills to create and curate content that fostered awareness and dialogue on gender equality issues, empowering a global audience and driving positive change."
+    }
+  ];
+
   return (
     <div style={{ 
       backgroundColor: '#1a0033',
@@ -373,8 +476,8 @@ const Portfolio = () => {
           {/* Left side - Name and Menu */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '3rem' }}>
             <div style={{ 
-              fontSize: '1.2rem',
-              fontWeight: '400',
+              fontSize: '1.5rem',
+              fontWeight: '600',
               transition: 'all 0.3s ease',
               textShadow: '0 0 0px rgba(187, 134, 252, 0)',
               cursor: 'pointer'
@@ -392,7 +495,7 @@ const Portfolio = () => {
               Aashna Parikh
             </div>
             <div style={{ display: 'flex', gap: '2rem' }}>
-              {['Home', 'About', 'Experience', 'Project', 'Research'].map(item => (
+              {['Home', 'About', 'Experience', 'Projects', 'Research'].map(item => (
                 <a 
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -400,7 +503,7 @@ const Portfolio = () => {
                   style={{ 
                     color: 'white',
                     textDecoration: 'none',
-                    fontSize: '1.05rem',
+                    fontSize: '1.15rem',
                     opacity: 0.9,
                     transition: 'all 0.3s ease',
                     textShadow: '0 0 0px rgba(187, 134, 252, 0)',
@@ -577,7 +680,7 @@ const Portfolio = () => {
             {/* Main Heading with Typing Effect */}
             <h1 style={{
               fontSize: '4rem',
-              marginBottom: '1.5rem',
+              marginBottom: '0.25rem',
               fontWeight: 'bold',
               letterSpacing: '-0.02em'
             }}>
@@ -598,7 +701,7 @@ const Portfolio = () => {
             {/* Subtitle */}
             <p style={{
               fontSize: '1.75rem',
-              marginBottom: '2.5rem',
+              marginBottom: '1.5rem',
               opacity: 0.9,
               fontWeight: '400'
             }}>
@@ -734,13 +837,13 @@ const Portfolio = () => {
                     </h3>
                     <div style={{
                       display: 'grid',
-                      gridTemplateColumns: '1fr 1fr',
+                      gridTemplateColumns: '1fr 1fr 1fr',
                       gap: '0.75rem',
                       fontSize: '1.1rem',
                       opacity: 0.85,
                       marginBottom: '1.5rem'
                     }}>
-                      {['Java', 'Python', 'Javascript ES6+', 'React.js', 'R'].map((tech, index) => (
+                      {['Java', 'Python', 'Javascript ES6+', 'React.js', 'Node.js', 'HTML/CSS', 'C', 'Assembly', 'R', 'Figma', 'Fusion360', 'SolidWorks', 'KiCAD'].map((tech, index) => (
                         <div 
                           key={tech} 
                           style={{ 
@@ -819,13 +922,175 @@ const Portfolio = () => {
           </div>
         </section>
 
-        {/* Placeholder sections for other menu items */}
-        <section id="experience" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ fontSize: '3rem', color: '#bb86fc' }}>Experience Section (Coming Soon)</h2>
+        {/* Experience Section */}
+        <section 
+          id="experience"
+          style={{
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '5rem 8rem',
+            opacity: experienceVisible ? 1 : 0,
+            transform: experienceVisible ? 'translateY(0)' : 'translateY(50px)',
+            transition: 'opacity 1s ease-out, transform 1s ease-out'
+          }}
+        >
+          <div style={{ maxWidth: '1200px', width: '100%' }}>
+            {/* Experience Header with Line */}
+            <div style={{ 
+              marginBottom: '4rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '1.5rem',
+              opacity: experienceVisible ? 1 : 0,
+              transform: experienceVisible ? 'translateY(0)' : 'translateY(30px)',
+              transition: 'opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s'
+            }}>
+              <h2 style={{
+                fontSize: '2.75rem',
+                color: 'white',
+                margin: 0,
+                whiteSpace: 'nowrap',
+                fontWeight: '400'
+              }}>
+                / <span style={{ color: '#bb86fc', fontWeight: '900' }}>experience</span>
+              </h2>
+              <div style={{
+                flex: 1,
+                height: '1px',
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                transformOrigin: 'left',
+                transform: experienceVisible ? 'scaleX(1)' : 'scaleX(0)',
+                transition: 'transform 1s ease-out 0.3s'
+              }}></div>
+            </div>
+
+            {/* Experience Timeline */}
+            <div style={{
+              position: 'relative',
+              paddingLeft: '2rem'
+            }}>
+              {/* Vertical Line */}
+              <div style={{
+                position: 'absolute',
+                left: '0',
+                top: '0',
+                bottom: '0',
+                width: '2px',
+                backgroundColor: 'rgba(187, 134, 252, 0.3)',
+                opacity: experienceVisible ? 1 : 0,
+                transform: experienceVisible ? 'scaleY(1)' : 'scaleY(0)',
+                transformOrigin: 'top',
+                transition: 'opacity 1.5s ease-out 0.5s, transform 1.5s ease-out 0.5s'
+              }}></div>
+
+              {/* Experience Cards */}
+              {experiences.map((exp, index) => (
+                <div 
+                  key={index}
+                  style={{
+                    position: 'relative',
+                    marginBottom: '3rem',
+                    opacity: experienceVisible ? 1 : 0,
+                    transform: experienceVisible ? 'translateX(0)' : 'translateX(-30px)',
+                    transition: `opacity 0.6s ease-out ${0.6 + index * 0.15}s, transform 0.6s ease-out ${0.6 + index * 0.15}s`
+                  }}
+                >
+                  {/* Timeline Dot */}
+                  <div style={{
+                    position: 'absolute',
+                    left: '-2.5rem',
+                    top: '0.5rem',
+                    width: '12px',
+                    height: '12px',
+                    backgroundColor: '#bb86fc',
+                    borderRadius: '50%',
+                    boxShadow: '0 0 15px rgba(187, 134, 252, 0.8)',
+                    zIndex: 1
+                  }}></div>
+
+                  {/* Experience Card */}
+                  <div 
+                    style={{
+                      backgroundColor: 'rgba(187, 134, 252, 0.05)',
+                      border: '1px solid rgba(187, 134, 252, 0.2)',
+                      borderRadius: '0.75rem',
+                      padding: '1.75rem',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(187, 134, 252, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(187, 134, 252, 0.5)';
+                      e.currentTarget.style.transform = 'translateX(10px)';
+                      e.currentTarget.style.boxShadow = '0 8px 30px rgba(187, 134, 252, 0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(187, 134, 252, 0.05)';
+                      e.currentTarget.style.borderColor = 'rgba(187, 134, 252, 0.2)';
+                      e.currentTarget.style.transform = 'translateX(0)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    {/* Role */}
+                    <h3 style={{
+                      fontSize: '1.5rem',
+                      color: '#bb86fc',
+                      marginBottom: '0.5rem',
+                      fontWeight: '600'
+                    }}>
+                      {exp.role}
+                    </h3>
+
+                    {/* Organization */}
+                    <div style={{
+                      fontSize: '1.2rem',
+                      color: 'white',
+                      marginBottom: '0.75rem',
+                      fontWeight: '500',
+                      opacity: 0.9
+                    }}>
+                      {exp.organization}
+                    </div>
+
+                    {/* Date and Location */}
+                    <div style={{
+                      display: 'flex',
+                      gap: '1.5rem',
+                      marginBottom: '1rem',
+                      fontSize: '0.95rem',
+                      opacity: 0.7
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <Calendar size={16} />
+                        <span>{exp.date}</span>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                        <MapPin size={16} />
+                        <span>{exp.location}</span>
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p style={{
+                      fontSize: '1.05rem',
+                      lineHeight: '1.7',
+                      opacity: 0.85,
+                      margin: 0,
+                      textAlign: 'justify'
+                    }}>
+                      {exp.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
         
-        <section id="project" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <h2 style={{ fontSize: '3rem', color: '#bb86fc' }}>Project Section (Coming Soon)</h2>
+        <section id="projects" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <h2 style={{ fontSize: '3rem', color: '#bb86fc' }}>Projects Section (Coming Soon)</h2>
         </section>
         
         <section id="research" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
