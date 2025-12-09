@@ -80,8 +80,3 @@ my-portfolio/
 - **Frameworks**: React.js, Node.js
 - **Tools**: Git, Figma
 - **Interests**: Cybersecurity, Big Data, Project Management
-
-
----
-
-**Built with 💜 by Aashna Parikh**
